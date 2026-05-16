@@ -38,7 +38,7 @@ export default function AboutPage() {
 
         <p>
           On the research side, I collaborate with{' '}
-          <a href="https://www.researchgate.net/profile/Jan-Szczekulski" className="text-accent hover:text-accent-hover underline underline-offset-2">Lazarski University</a>{' '}
+          <a href="https://www.researchgate.net/profile/Jan-Szczekulski-2" className="text-accent hover:text-accent-hover underline underline-offset-2">Lazarski University</a>{' '}
           on AI applications in dermatology — using CycleGANs and CNNs to predict and visualize
           treatment outcomes for Port-Wine Stain birthmarks. Published at ASLMS 2024.
         </p>
