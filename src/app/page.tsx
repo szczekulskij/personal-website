@@ -1,9 +1,39 @@
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog';
+import { getAllReadings } from '@/lib/readings';
 import { format } from 'date-fns';
 
+type RecentItem = {
+  slug: string;
+  title: string;
+  date: string;
+  description?: string;
+  tags: string[];
+  type: 'blog' | 'reading';
+};
+
 export default function Home() {
-  const posts = getAllPosts().slice(0, 3);
+  const posts: RecentItem[] = getAllPosts().map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    date: p.date,
+    description: p.description,
+    tags: p.tags,
+    type: 'blog',
+  }));
+
+  const readings: RecentItem[] = getAllReadings().map((r) => ({
+    slug: r.slug,
+    title: r.title,
+    date: r.date,
+    description: r.summary,
+    tags: r.labels,
+    type: 'reading',
+  }));
+
+  const recentItems = [...posts, ...readings]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5);
 
   return (
     <div className="max-w-xl mx-auto px-4 sm:px-6">
@@ -53,21 +83,21 @@ export default function Home() {
           </Link>
         </div>
         <div className="divide-y divide-border">
-          {posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="block py-5 group">
+          {recentItems.map((item) => (
+            <Link key={`${item.type}-${item.slug}`} href={`/${item.type === 'blog' ? 'blog' : 'readings'}/${item.slug}`} className="block py-5 group">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-sm font-bold text-text group-hover:text-accent transition-colors mb-1">
-                    {post.title}
+                    {item.title}
                   </h3>
-                  {post.description && (
+                  {item.description && (
                     <p className="text-text-muted text-xs leading-relaxed line-clamp-2">
-                      {post.description}
+                      {item.description}
                     </p>
                   )}
-                  {post.tags && post.tags.length > 0 && (
+                  {item.tags && item.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mt-2">
-                      {post.tags.slice(0, 2).map((tag) => (
+                      {item.tags.slice(0, 2).map((tag) => (
                         <span key={tag} className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 border border-border rounded text-text-muted">
                           {tag.toUpperCase()}
                         </span>
@@ -75,9 +105,9 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                {post.date && (
+                {item.date && (
                   <span className="text-[10px] font-mono text-text-light whitespace-nowrap mt-0.5">
-                    {format(new Date(post.date), 'MMM yyyy')}
+                    {format(new Date(item.date), 'MMM yyyy')}
                   </span>
                 )}
               </div>
