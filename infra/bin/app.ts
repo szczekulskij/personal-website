@@ -7,9 +7,7 @@ const app = new cdk.App();
 new WebsiteStack(app, 'JanWebsiteStack', {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION || 'us-east-1',
+    region: 'us-east-1', // Required: CloudFront certs must be in us-east-1
   },
-  // Configure these for your domain
-  domainName: app.node.tryGetContext('domainName') || undefined,
-  certificateArn: app.node.tryGetContext('certificateArn') || undefined,
+  domainName: 'jansz.dev',
 });

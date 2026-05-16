@@ -4,22 +4,35 @@ import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import { Construct } from 'constructs';
 
 interface WebsiteStackProps extends cdk.StackProps {
-  domainName?: string;
-  certificateArn?: string;
+  domainName: string;
 }
 
 export class WebsiteStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: WebsiteStackProps) {
+  constructor(scope: Construct, id: string, props: WebsiteStackProps) {
     super(scope, id, props);
+
+    const { domainName } = props;
+
+    // Look up the hosted zone that Route 53 created when you registered jansz.dev
+    const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
+      domainName,
+    });
+
+    // Create an ACM certificate with DNS validation (auto-validated via Route 53)
+    const certificate = new acm.Certificate(this, 'Certificate', {
+      domainName,
+      subjectAlternativeNames: [`www.${domainName}`],
+      validation: acm.CertificateValidation.fromDns(hostedZone),
+    });
 
     // S3 bucket for static site hosting
     const siteBucket = new s3.Bucket(this, 'SiteBucket', {
-      bucketName: props?.domainName
-        ? `${props.domainName}-site`
-        : undefined,
+      bucketName: `${domainName}-site`,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -30,7 +43,7 @@ export class WebsiteStack extends cdk.Stack {
       this,
       'OAI',
       {
-        comment: 'OAI for personal website',
+        comment: `OAI for ${domainName}`,
       }
     );
 
@@ -61,8 +74,8 @@ function handler(event) {
       }
     );
 
-    // Build CloudFront distribution config
-    const distributionProps: cloudfront.DistributionProps = {
+    // CloudFront distribution
+    const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(siteBucket, {
           originAccessIdentity,
@@ -77,6 +90,8 @@ function handler(event) {
           },
         ],
       },
+      domainNames: [domainName, `www.${domainName}`],
+      certificate,
       defaultRootObject: 'index.html',
       errorResponses: [
         {
@@ -86,27 +101,38 @@ function handler(event) {
           ttl: cdk.Duration.minutes(5),
         },
       ],
-    };
+    });
 
-    // Add custom domain if provided
-    if (props?.domainName && props?.certificateArn) {
-      const certificate = acm.Certificate.fromCertificateArn(
-        this,
-        'Certificate',
-        props.certificateArn
-      );
+    // DNS records: point jansz.dev and www.jansz.dev to CloudFront
+    new route53.ARecord(this, 'ApexRecord', {
+      zone: hostedZone,
+      target: route53.RecordTarget.fromAlias(
+        new targets.CloudFrontTarget(distribution)
+      ),
+    });
 
-      Object.assign(distributionProps, {
-        domainNames: [props.domainName, `www.${props.domainName}`],
-        certificate,
-      });
-    }
+    new route53.AaaaRecord(this, 'ApexRecordIPv6', {
+      zone: hostedZone,
+      target: route53.RecordTarget.fromAlias(
+        new targets.CloudFrontTarget(distribution)
+      ),
+    });
 
-    const distribution = new cloudfront.Distribution(
-      this,
-      'Distribution',
-      distributionProps
-    );
+    new route53.ARecord(this, 'WwwRecord', {
+      zone: hostedZone,
+      recordName: 'www',
+      target: route53.RecordTarget.fromAlias(
+        new targets.CloudFrontTarget(distribution)
+      ),
+    });
+
+    new route53.AaaaRecord(this, 'WwwRecordIPv6', {
+      zone: hostedZone,
+      recordName: 'www',
+      target: route53.RecordTarget.fromAlias(
+        new targets.CloudFrontTarget(distribution)
+      ),
+    });
 
     // Deploy site contents to S3
     new s3deploy.BucketDeployment(this, 'DeploySite', {
@@ -117,6 +143,11 @@ function handler(event) {
     });
 
     // Outputs
+    new cdk.CfnOutput(this, 'SiteUrl', {
+      value: `https://${domainName}`,
+      description: 'Website URL',
+    });
+
     new cdk.CfnOutput(this, 'DistributionDomainName', {
       value: distribution.distributionDomainName,
       description: 'CloudFront distribution domain name',
