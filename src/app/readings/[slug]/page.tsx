@@ -24,7 +24,7 @@ export default function ReadingPage({ params }: Props) {
   const reading = getReadingBySlug(params.slug);
 
   return (
-    <article className="max-w-xl mx-auto px-4 sm:px-6 py-14">
+    <article className="max-w-6xl mx-auto px-4 sm:px-6 py-14">
       <Link
         href="/readings"
         className="inline-flex items-center text-text-muted hover:text-text mb-8 transition-colors font-mono text-[10px] tracking-widest"
