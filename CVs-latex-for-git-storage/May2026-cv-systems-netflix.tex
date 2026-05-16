@@ -1,0 +1,222 @@
+\documentclass[letterpaper,10.5pt]{article}
+
+\usepackage[empty]{fullpage}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage[english]{babel}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ---------- MARGINS ----------
+
+\addtolength{\oddsidemargin}{-0.55in}
+\addtolength{\textwidth}{1.1in}
+\addtolength{\topmargin}{-.75in}
+\addtolength{\textheight}{1.5in}
+
+\urlstyle{same}
+\raggedright
+\setlength{\tabcolsep}{0in}
+\setlength{\parskip}{0pt}
+
+% ---------- SECTION FORMATTING ----------
+
+\titleformat{\section}{
+  \vspace{-3pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+% ---------- CUSTOM COMMANDS ----------
+
+\newcommand{\resumeItem}[1]{
+  \item\small{#1}
+}
+
+\newcommand{\resumeCompanyHeading}[2]{
+  \item[]
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+    \textbf{\large #1} & \textbf{\large #2} \\
+  \end{tabular*}
+  \vspace{-6pt}
+}
+
+% Roles now align exactly with company name.
+\newcommand{\resumeRolesTwo}[4]{
+  \noindent
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+    \textbf{\small #1} & \small #2 \\
+    \textbf{\small #3} & \small #4 \\
+  \end{tabular*}
+  \vspace{-4pt}
+}
+
+\newcommand{\resumeRoleOne}[2]{
+  \noindent
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+    \textbf{\small #1} & \small #2 \\
+  \end{tabular*}
+  \vspace{-4pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item[]
+  \begin{tabularx}{\textwidth}{Xr}
+    \textbf{#1} & \textbf{\small #2} \\
+  \end{tabularx}
+  \vspace{-3pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{
+  \begin{itemize}[leftmargin=0in,label={},topsep=0pt,itemsep=8pt,parsep=0pt,partopsep=0pt]
+}
+
+\newcommand{\resumeSubHeadingListEnd}{
+  \end{itemize}
+}
+
+\newcommand{\resumeItemListStart}{
+  \begin{itemize}[leftmargin=0.18in,label=--,topsep=2pt,itemsep=2pt,parsep=0pt,partopsep=0pt]
+}
+
+\newcommand{\resumeItemListEnd}{
+  \end{itemize}
+  \vspace{6pt}
+}
+
+\newcommand{\resumePublication}[4]{
+  \item
+  \textbf{\href{#3}{#1}} \\
+  \textit{\small #2}
+  \vspace{-4pt}
+  \begin{itemize}[leftmargin=0.15in]
+    \item\small{#4}
+  \end{itemize}
+  \vspace{-8pt}
+}
+% ---------- DOCUMENT ----------
+
+\begin{document}
+
+\begin{center}
+    {\Huge \scshape Jan Szczekulski} \\ \vspace{3pt}
+
+    \href{mailto:szczekulskij@gmail.com}{\faEnvelope\ jszczekulski@ucsd.edu}
+    \quad
+    \href{https://www.linkedin.com/in/jan-szczekulski-272ab615a}{\faLinkedin\ linkedin.com/in/jan-szczekulski}
+    \quad
+    \href{https://github.com/szczekulskij}{\faGithub\ github.com/szczekulskij}
+\end{center}
+
+\section{Summary}
+
+\small{
+Software engineer with 4+ years of experience designing and building distributed systems, including cloud-native user and internal-facing platforms. Main experience in distributed frontends and backends, event-driven architectures, migration frameworks, high-throughput APIs, and operational tooling. I take pride in ownership and forward-thinking approach to engineering and scalability
+
+}
+
+\section{Experience}
+
+\resumeSubHeadingListStart
+
+\resumeCompanyHeading{Amazon}{Seattle, USA}
+
+\resumeRolesTwo
+  {Software Development Engineer}{Apr 2025 -- Present}
+  {Software Development Engineer Intern}{Jun 2024 -- Sept 2024}
+
+\resumeItemListStart
+\resumeItem{Led redesign and deprecation of a 17-year legacy Tier-1 distributed configuration platform handling \textbf{10M+ daily requests} across \textbf{200+ global fulfillment sites}, consolidating fragmented schemas and services into unified DynamoDB-backed APIs with zero production downtime.}
+\resumeItem{Designed and implemented large-scale migration infrastructure including schema redesign, migration tooling, double-read/double-write validation frameworks, staged traffic shifting, rollback mechanisms, and production monitoring for a migration of a Tier-1 distributed backend.}
+
+\resumeItem{Developed distributed backend services and APIs in \textbf{Java/Spring} using \textbf{DynamoDB, ECS, Lambda, SQS, SNS, Kinesis, AWS SDKs, and CI/CD tooling} while articulating and driving tradeoff decisions between scalability, operational robustness, fault-tolerance, blast radius minimization and separation of concerns between subsystems.}
+
+\resumeItem{Owned operational reliability for 3+ Tier-1 production systems including deployment pipelines, rollout procedures, dashboards, alarms, incident response, load testing, and production migration coordination.}
+
+\resumeItem{Resolved critical European-wide production incidents by identifying transient distributed in nature bugs, and introducing frameworks and safeguards across 3+ Tier-1 services to avoid and detect these issues.}
+
+\resumeItem{Designed and shipped 3 key features across 8+ different systems, earning/saving estimated 450 million per year. Features were focused on reducing manual intervenation required and scaling across more sites. Such as auto-login feature, new type of datacenter support or specific workflows for handling new kind of items.}
+
+\resumeItemListEnd
+
+\resumeCompanyHeading{UCSD}{San Diego, USA}
+
+\resumeRolesTwo
+  {Graduate Research Assistant @ Contextual Robotics Institute}{Sept 2024 -- March 2025}
+  {Teaching Assistant }{Jan 2025 -- March 2025}
+
+\resumeItemListStart
+\resumeItem{Co-author and co-lead implementer of a state-of-the-art robotic tabletop rearrangement system published at \textbf{ICRA 2025}, focusing on long-horizon planning and robust execution under physical-world's uncertainty.}
+\resumeItem{Built planning systems integrating vision-language models and large language models for mobile manipulation and multi-step reasoning tasks.}
+\resumeItem{Helped prepare study resources and provided office hours as well as seminars for a Search and Optimization course}
+\resumeItemListEnd 
+
+\resumeCompanyHeading{The Hut Group (THG)}{Manchester, UK}
+
+\resumeRolesTwo
+  {Software Engineer}{Dec 2021 -- Aug 2023}
+  {Data Scientist}{Sept 2020 -- Dec 2021}
+
+\resumeItemListStart
+\resumeItem{Designed and implemented experimentation infrastructure integrating an in-house A/B testing backend with a high-throughput widget delivery platform serving \textbf{5k+ RPS}.}
+\resumeItem{Built backend APIs, integration services, rollout tooling, and React-based frontend systems enabling rapid experiment configuration supporting real-time configuration updates, feature exposure logic, and analytics collection in large-scale e-commerce systems contributing to \textbf{£150M+ YoY business impact}.}
+\resumeItem{Designed and implemented backend integrations between experimentation systems, widgeting services, and analytics platforms using \textbf{TypeScript, Python, SQL, React.js, and MVC-based architectures}.}
+\resumeItem{Built SQL and Python pipelines for experiment evaluation, statistical analysis, and operational analytics across millions of daily events.}
+\resumeItem{Managed production infrastructure including Kubernetes clusters, deployment pipelines, VM provisioning, patching, and operational maintenance.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+% ---------- PUBLICATIONS ----------
+\section{Publications}
+
+\resumeSubHeadingListStart
+
+\resumePublication
+{OmniManip: Towards General Robotic Manipulation via Object-Centric Interaction Primitives as Spatial Constraints}
+{ICRA 2025}
+{https://arxiv.org/abs/2411.10899}
+{Co-author; contributed to long-horizon robotic planning, manipulation systems, and LLM-assisted embodied AI reasoning.}
+
+\resumePublication
+{In Search for Optimal Schedule During Long-Term Treatment of Port-Wine Birthmarks}
+{Scientific Reports}
+{https://www.researchgate.net/publication/404025825_In_search_for_optimal_schedule_during_long_term_treatment_of_port_wine_birthmarks_-_data_from_single_center_retrospective_cohort_study_with_a_small_prospective_extension}
+{Co-author; applied machine learning and statistical analysis methods to medical outcome prediction from imaging datasets.}
+
+\resumeSubHeadingListEnd
+
+\section{Education}
+
+\resumeSubHeadingListStart
+
+\resumeCompanyHeading{University of California, San Diego}{San Diego, USA}
+\resumeRoleOne{M.S. in Computer Science, GPA: 3.85}{2023 -- 2025}
+
+\resumeCompanyHeading{University of Liverpool}{Liverpool, UK}
+\resumeRoleOne{B.Sc. (Hons) Computer Science \& Mathematics, First Class}{2017 -- 2020}
+
+\resumeSubHeadingListEnd
+
+\section{Technical Skills}
+
+\begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt, topsep=0pt]
+\small{
+\item \textbf{Languages:} Java, C, Python, Go, TypeScript, SQL
+\item \textbf{Cloud \& Infrastructure:} AWS ECS, AWS EC2, Lambda, DynamoDB, SNS, SQS, Kinesis, AWS CDK, Docker, Kubernetes
+\item \textbf{Frontend:} React.js, javascript, MVC Architectures
+\item \textbf{Data Systems:} A/B testing Platforms, Statistical Analysis, Data Aggregation Systems
+\item \textbf{Backend \& Distributed Systems:} Spring Boot, REST APIs, Distributed Systems, Data Migration, Reliability Engineering, API Design, High-Throughput Systems
+\item \textbf{ML \& Research:} PyTorch, Vision-Language Models, Large Language Models, Robotics Planning Systems
+}
+\end{itemize}
+
+\end{document}
