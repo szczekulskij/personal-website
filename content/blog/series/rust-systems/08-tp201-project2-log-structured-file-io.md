@@ -2,15 +2,15 @@
 
 ---
 title: "#08 - TP 201 Project 2: Log-Structured File I/O"
-description: "Building a persistent key/value store using log-structured storage (bitcask). Serialization with serde, robust error handling, and log compaction."
+description: "Building a persistent key/value store using log-structured storage (bitcask)."
 date: 2026-08-16
 seriesOrder: 8
-tags: ["rust", "talent-plan", "kv-store", "storage", "tp201"]
+tags: ["rust", "kv-store", "storage"]
 ---
 
 ## Overview
 
-**Course**: TP 201 — Practical Networked Applications in Rust
+**Course**: TP 201 - Practical Networked Applications in Rust
 **Project 2**: Log-Structured File I/O
 
 **Task**: Create a persistent key/value store that can be accessed from the command line.
@@ -23,28 +23,8 @@ tags: ["rust", "talent-plan", "kv-store", "storage", "tp201"]
 - Map in-memory key-indexes to on-disk values
 - Periodically compact the log to remove stale data
 
-## Building Blocks 2 (pre-reading)
-
-Topics: Log-structured file I/O, the bitcask algorithm, Rust error handling, comparing collection types.
-
-TODO — bitcask paper, log-structured merge trees
-
-## Implementation
-
-TODO
-
-### The Bitcask Storage Model
-
-TODO
-
-### Serde & Serialization
-
-TODO
-
-### Log Compaction
-
-TODO
-
-## Notes & Takeaways
-
-TODO
+## Readings
+### Reading 1: Damn Cool Algorithms: Log structured storage
+### Reading 2: The Design and Implementation of a Log-Structured File System
+### Reading 3: Bitcask
+### Reading 4: std::collections & std::io
